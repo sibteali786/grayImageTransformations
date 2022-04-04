@@ -1,8 +1,6 @@
 import cv2 as cv
 import numpy as np
 
-path = r'C:\Users\lenovo\PycharmProjects\Lab_4'
-
 
 class grayImgTransformations:
     def __init__(self, name, path):
@@ -25,6 +23,19 @@ class grayImgTransformations:
         imgResult = 255 * ((self.image / 255) ** float(gamma))
         imgResult = imgResult.astype(np.uint8)
         return imgResult
+
+    def replaceLowHighValue(self, lowerLimit, higherLimit, replaceLower, replacehigher):
+        height = self.image.shape[0]
+        width = self.image.shape[1]
+        for i in range(height):
+            for j in range(width):
+                if self.image[i][j] < lowerLimit:
+                    self.image[i][j] = replaceLower
+                elif self.image[i][j] > higherLimit:
+                    self.image[i][j] = replacehigher
+                else:
+                    self.image[i][j] = ((self.image[i][j] - lowerLimit) / (higherLimit - lowerLimit)) * 255
+        return self.image
 
     def grayLevelSlicing(self, lowerLimit, upperLimit, replaceValue):
         height = self.image.shape[0]
@@ -70,17 +81,3 @@ class grayImgTransformations:
                     imgRes[i][j] = highValue
 
         return imgRes
-
-
-myImage = grayImgTransformations("ClassTaskImage", path + "\Fig0241(a)(einstein low contrast).tif")
-# negTrans = myImage.negTrans()
-# varyingRange = myImage.replPixActoMean(0,255)
-varyingRangeBound = myImage.replPixActoMeanWithBounds(20, 0, 255)
-cv.imshow("Negative Transformed", varyingRangeBound)
-cv.waitKey()
-
-# logTransformed = myImage.logTrans()
-# powerlawtrans = myImage.powerLawTrans(2.2)
-# grayLevelScaling = myImage.grayLevelSlicing(150,240,200)
-# histogram = myImage.histogramForImage()
-# print(histogram)
