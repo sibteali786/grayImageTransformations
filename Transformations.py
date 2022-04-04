@@ -48,7 +48,7 @@ class grayImgTransformations:
         return imgResult
 
     def histogramForImage(self):
-        histVec = np.zeros(255, dtype=np.uint8)
+        histVec = np.zeros(256, dtype=np.uint8)
         height = self.image.shape[0]
         width = self.image.shape[1]
         for i in range(height):
